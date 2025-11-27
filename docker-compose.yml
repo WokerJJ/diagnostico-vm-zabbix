@@ -1,0 +1,52 @@
+services:
+  postgres-server:
+    image: postgres:16
+    container_name: zabbix-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: zabbix
+      POSTGRES_PASSWORD: zabbix_pwd
+      POSTGRES_DB: zabbix
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      - zabbix-net
+
+  zabbix-server:
+    image: zabbix/zabbix-server-pgsql:ubuntu-latest
+    container_name: zabbix-server
+    restart: unless-stopped
+    environment:
+      DB_SERVER_HOST: postgres-server
+      POSTGRES_USER: zabbix
+      POSTGRES_PASSWORD: zabbix_pwd
+      POSTGRES_DB: zabbix
+    depends_on:
+      - postgres-server
+    ports:
+      - "10052:10051"
+    networks:
+      - zabbix-net
+
+  zabbix-web:
+    image: zabbix/zabbix-web-nginx-pgsql:ubuntu-latest
+    container_name: zabbix-web
+    restart: unless-stopped
+    environment:
+      DB_SERVER_HOST: postgres-server
+      POSTGRES_USER: zabbix
+      POSTGRES_PASSWORD: zabbix_pwd
+      POSTGRES_DB: zabbix
+      ZBX_SERVER_HOST: zabbix-server
+      PHP_TZ: "America/Bogota"
+    depends_on:
+      - postgres-server
+      - zabbix-server
+    ports:
+      - "8080:8080"
+    networks:
+      - zabbix-net
+
+networks:
+  zabbix-net:
+    driver: bridge

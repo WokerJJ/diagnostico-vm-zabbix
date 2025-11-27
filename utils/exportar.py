@@ -413,12 +413,12 @@ def generar_html_diagnostico(diag: Dict[str, Any], titulo: str = "Diagnóstico d
         </ul>
 """
 
-        html += """
-        <div class="footer">
-            <p>Reporte generado automáticamente por Sistema de Diagnóstico y Auditoría.</p>
-            <p>Cumple con buenas prácticas de monitoreo y auditoría.</p>
-        </div>
+    html += """
+    <div class="footer">
+        <p>Reporte generado automáticamente por Sistema de Diagnóstico y Auditoría.</p>
+        <p>Cumple con buenas prácticas de monitoreo y auditoría.</p>
     </div>
+</div>
 </body>
 </html>
 """

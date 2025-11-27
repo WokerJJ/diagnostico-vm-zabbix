@@ -102,6 +102,7 @@ def _guardar_medicion_pg(diag: Dict[str, Any]) -> bool:
 
 
 def _obtener_resumen_pg(n_ultimas: int) -> Optional[dict]:
+    _init_pg()
     conn = _get_pg_conn()
     if conn is None:
         return None
