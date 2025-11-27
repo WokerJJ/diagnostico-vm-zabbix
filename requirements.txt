@@ -1,0 +1,14 @@
+# Core
+psutil
+requests
+python-dotenv
+pdf-reports
+py-cpuinfo
+pythonping
+psycopg2-binary
+
+# GUI (Tkinter viene con Python, no se instala por pip)
+# tkinter
+
+# PDF (lo dejaremos listo para el siguiente paso; puedes elegir una)
+pdf-reports

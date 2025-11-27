@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico del Sistema</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            margin: 20px;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            border-bottom: 3px solid #0066cc;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #0066cc;
+            margin-top: 20px;
+            border-left: 4px solid #0066cc;
+            padding-left: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th {
+            background: #0066cc;
+            color: white;
+            padding: 10px;
+            text-align: left;
+        }
+        td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        .status-ok {
+            color: green;
+            font-weight: bold;
+        }
+        .status-warn {
+            color: orange;
+            font-weight: bold;
+        }
+        .status-error {
+            color: red;
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Diagnóstico del Sistema</h1>
+        <p style="text-align: center; color: #666;">Generado: 2025-11-27 00:58:59</p>
+
+        <h2>Sistema Local</h2>
+        <table>
+            <tr>
+                <th>Parámetro</th>
+                <th>Valor</th>
+            </tr>
+<tr><td>Hostname</td><td>woker-VirtualBox</td></tr>
+<tr><td>Sistema Operativo</td><td>Linux 6.14.0-36-generic</td></tr>
+<tr><td>Arquitectura</td><td>x86_64</td></tr>
+<tr><td>Tipo de Sistema</td><td>Máquina Virtual</td></tr>
+<tr><td>CPUs (lógicos)</td><td>4</td></tr>
+<tr><td>CPUs (físicos)</td><td>4</td></tr>
+<tr><td>RAM Total</td><td>6.66 GB</td></tr>
+
+        </table>
+
+        <h2>Monitoreo desde Zabbix</h2>
+        <p><strong>Estado global:</strong> <span class="status-warn">ADVERTENCIA</span></p>
+<ul>
+<li>Servicio AnyDesk no está en ejecución (estado=0).</li>
+<li>Servicio AudioEndpointBuilder no está en ejecución (estado=0).</li>
+</ul>
+
+        <table>
+            <tr>
+                <th>Métrica</th>
+                <th>Valor</th>
+                <th>Estado</th>
+                <th>Recomendación</th>
+            </tr>
+<tr><td>Uso de CPU</td><td>11.1 %</td><td class='status-ok'>OK</td><td></td></tr>
+<tr><td>Uso de RAM</td><td>78.8 %</td><td class='status-ok'>OK</td><td></td></tr>
+<tr><td>Uso Disco C:</td><td>52.0 %</td><td class='status-ok'>OK</td><td></td></tr>
+<tr><td>Espacio Libre C:</td><td>223.25 GB</td><td class='status-ok'>OK</td><td></td></tr>
+<tr><td>Uptime</td><td>10.0 h</td><td class='status-ok'>OK</td><td></td></tr>
+<tr><td>Swap libre</td><td>83.3 %</td><td class='status-ok'>OK</td><td></td></tr>
+<tr><td>Servicio AnyDesk</td><td>Detenido</td><td class='status-warn'>OK</td><td>Verificar si este servicio debe estar activo.</td></tr>
+<tr><td>Servicio AudioEndpointBuilder</td><td>Detenido</td><td class='status-warn'>OK</td><td>Verificar si este servicio debe estar activo.</td></tr>
+
+        </table>
+
+        <h2>Recomendaciones de capacidad (VM vs Host)</h2>
+        <ul>
+<li>Puede aumentar la RAM de la VM hasta ~12.8 GB sin exceder el 80% de la RAM del host (16.0 GB).</li>
+<li>Puede aumentar los vCPU de la VM hasta ~6 cores sin sobreasignar CPU respecto al host (8 cores).</li>
+
+        </ul>
