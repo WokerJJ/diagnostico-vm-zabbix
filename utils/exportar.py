@@ -374,6 +374,17 @@ def generar_html_diagnostico(diag: Dict[str, Any], titulo: str = "Diagnóstico d
         <h2>Diagnóstico de red</h2>
         <p>Latencia media desde la VM hasta el servidor Zabbix: <strong>{lat:.1f} ms</strong>.</p>
 """
+    netdata = diag.get("netdata", {})
+    if netdata and any(v is not None for v in netdata.values()):
+        html += "<h2>Métricas en tiempo real (Netdata)</h2>\n<ul>\n"
+        if netdata.get("cpu_avg_60s") is not None:
+            html += f"<li>CPU de la VM (promedio últimos 60 s): {netdata['cpu_avg_60s']:.1f} %</li>\n"
+        if netdata.get("load_avg_1m") is not None:
+            html += f"<li>Load average 1 minuto: {netdata['load_avg_1m']:.2f}</li>\n"
+        if netdata.get("ram_uso_pct") is not None:
+            html += f"<li>RAM usada en la VM (promedio últimos 60 s): {netdata['ram_uso_pct']:.1f} %</li>\n"
+        html += "</ul>\n"
+
     # Sección: Resumen histórico
     resumen = diag.get("resumen", {})
     if resumen and resumen.get("muestras"):

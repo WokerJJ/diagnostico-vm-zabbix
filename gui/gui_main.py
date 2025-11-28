@@ -89,6 +89,10 @@ class DiagnosticoApp(tk.Tk):
         self.lbl_resumen.grid(row=2, column=1, columnspan=2,
                               sticky="w", padx=5, pady=2)
 
+        self.lbl_netdata = ttk.Label(frame_zbx, text="Netdata: -")
+        self.lbl_netdata.grid(row=3, column=0, columnspan=3, sticky="w", padx=5, pady=2)
+
+
         for col in range(3):
             frame_zbx.columnconfigure(col, weight=1)
 
@@ -166,6 +170,19 @@ class DiagnosticoApp(tk.Tk):
 
             texto_estado = f"Estado global: {estado}"
             self.lbl_estado_global.config(text=texto_estado)
+
+            netdata = datos.get("netdata", {})
+            if netdata and any(v is not None for v in netdata.values()):
+                partes = []
+                if netdata.get("cpu_avg_60s") is not None:
+                    partes.append(f"CPU VM (Netdata, 60s): {netdata['cpu_avg_60s']:.1f} %")
+                if netdata.get("load_avg_1m") is not None:
+                    partes.append(f"Load 1m: {netdata['load_avg_1m']:.2f}")
+                if netdata.get("ram_uso_pct") is not None:
+                    partes.append(f"RAM VM (Netdata, 60s): {netdata['ram_uso_pct']:.1f} %")
+                self.lbl_netdata.config(text=" | ".join(partes))
+            else:
+                self.lbl_netdata.config(text="Netdata: sin datos o deshabilitado")
 
             if motivos:
                 for m in motivos:

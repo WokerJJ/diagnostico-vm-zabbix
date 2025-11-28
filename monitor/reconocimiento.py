@@ -3,7 +3,9 @@ from monitor.red import medir_latencia
 from monitor.historico import obtener_resumen
 from .sistema_local import obtener_info_sistema_local
 from .zabbix_client import ZabbixClient
-from utils.config import ZABBIX_URL, ZABBIX_TOKEN, ZABBIX_HOSTNAME, HOST_RAM_GB, HOST_CPU_CORES
+from monitor.netdata_client import NetdataClient
+from utils.config import ZABBIX_URL, ZABBIX_TOKEN, ZABBIX_HOSTNAME, HOST_RAM_GB, HOST_CPU_CORES, NETDATA_ENABLED
+
 
 def calcular_recomendaciones_vm(info_local: dict) -> dict:
     """
@@ -110,7 +112,20 @@ def reconocimiento_inicial() -> dict:
     estado = calcular_estado_global(diag_zbx)
 
     lat_zbx = medir_latencia("192.168.1.9")  # IP del Zabbix server o gateway
+    info_red = {"latencia_zabbix_ms": lat_zbx}
     resumen = obtener_resumen(20)
+
+    netdata_info = {}
+    if NETDATA_ENABLED:
+        nd = NetdataClient()
+        cpu_nd = nd.get_cpu_avg_last_minute()
+        load_nd = nd.get_load_avg()
+        ram_nd = nd.get_ram_used_pct()
+        netdata_info = {
+            "cpu_avg_60s": cpu_nd,
+            "load_avg_1m": load_nd,
+            "ram_uso_pct": ram_nd,
+        }
 
     return {
          "sistema_local": info_local,
@@ -118,7 +133,8 @@ def reconocimiento_inicial() -> dict:
         "recomendaciones": rec_vm["recomendaciones_capacidad"],
         "estado_global": estado["estado_global"],
         "motivos_estado": estado["motivos_estado"],
-        "red": {"latencia_zabbix_ms": lat_zbx},
+        "red": info_red,
         "resumen": resumen,
+        "netdata": netdata_info,
     }
 

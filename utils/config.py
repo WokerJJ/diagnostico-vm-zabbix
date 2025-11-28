@@ -17,3 +17,6 @@ PG_PORT = os.getenv("PG_PORT", "5432")
 PG_DB = os.getenv("PG_DB", "diag_db")
 PG_USER = os.getenv("PG_USER", "diag_user")
 PG_PASSWORD = os.getenv("PG_PASSWORD", "")
+
+NETDATA_URL = os.getenv("NETDATA_URL", "http://localhost:19999")
+NETDATA_ENABLED = os.getenv("NETDATA_ENABLED", "false").lower() == "true"
